@@ -1,0 +1,520 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design Tokens ─── */
+:root {
+  --bg-primary: #0B1118;
+  --bg-surface: #0F1923;
+  --bg-card: #131D2A;
+  --bg-elevated: #182536;
+
+  --accent-cyan: #00D4FF;
+  --accent-cyan-hover: #33DDFF;
+  --accent-violet: #7B61FF;
+  --accent-emerald: #00E68A;
+
+  --text-primary: #E8ECF1;
+  --text-secondary: #8B9BB4;
+  --text-muted: #52637A;
+
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  --border-default: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(255, 255, 255, 0.16);
+  --border-active: rgba(0, 212, 255, 0.4);
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+}
+
+/* Light Mode Theme */
+html.light {
+  color-scheme: light;
+  --bg-primary: #F3F6F9;
+  --bg-surface: #FFFFFF;
+  --bg-card: #FFFFFF;
+  --bg-elevated: #F8FAFC;
+
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #94A3B8;
+
+  --border-subtle: rgba(0, 0, 0, 0.05);
+  --border-default: rgba(0, 0, 0, 0.09);
+  --border-hover: rgba(0, 0, 0, 0.18);
+  --border-active: rgba(0, 163, 255, 0.6);
+}
+
+html.light body {
+  background-color: #F3F6F9 !important;
+  color: #0F172A !important;
+}
+
+html.light .glass-card,
+html.light .glass-card-static,
+html.light .glass-panel {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+  color: #0F172A !important;
+}
+
+html.light header,
+html.light aside {
+  background: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light main {
+  background: #F3F6F9 !important;
+}
+
+html.light .fx-input,
+html.light .fx-select {
+  background: #FFFFFF !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  color: #0F172A !important;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+}
+
+html.light .text-\[\#E8ECF1\] {
+  color: #0F172A !important;
+}
+
+html.light .text-\[\#8B9BB4\] {
+  color: #475569 !important;
+}
+
+html.light .text-\[\#7B8CA3\] {
+  color: #64748B !important;
+}
+
+html.light .bg-surface\/50,
+html.light .bg-surface\/60,
+html.light .bg-surface\/70,
+html.light .bg-surface\/80,
+html.light .bg-surface {
+  background-color: #F8FAFC !important;
+}
+
+/* OLED Pure Black Theme */
+html.oled {
+  --bg-primary: #000000;
+  --bg-surface: #050505;
+  --bg-card: #0A0A0A;
+}
+
+html.oled body,
+html.oled main {
+  background-color: #000000 !important;
+}
+
+html.oled .glass-card,
+html.oled .glass-card-static {
+  background: #080808 !important;
+  border-color: rgba(255, 255, 255, 0.09) !important;
+}
+
+/* ─── Base Reset ─── */
+@layer base {
+  * {
+    border-color: rgba(255, 255, 255, 0.07);
+  }
+
+  html {
+    color-scheme: dark;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Studio Ambient grid & glow background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 90% 50% at 15% 10%, rgba(0, 212, 255, 0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 60% at 85% 85%, rgba(123, 97, 255, 0.035) 0%, transparent 65%),
+      radial-gradient(circle at 50% 50%, rgba(0, 230, 138, 0.015) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Subtle micro-grid pattern for pro software look */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+/* ─── Numbers / Monospace Typography ─── */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' on, 'zero' on;
+}
+
+/* ─── Custom Precision Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.09);
+  border-radius: 9999px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.09) transparent;
+}
+
+/* ─── Components ─── */
+@layer components {
+
+  /* ─── Studio Glass Surfaces ─── */
+  .glass-panel {
+    background: rgba(15, 25, 35, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .glass-card {
+    background: rgba(19, 29, 42, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .glass-card:hover {
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-card-static {
+    background: rgba(19, 29, 42, 0.75);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  /* ─── Tactile Tappable Buttons (Human Engineered) ─── */
+  .fx-btn {
+    @apply inline-flex items-center justify-center font-semibold select-none;
+    font-size: 0.875rem; /* 14px */
+    line-height: 1.25rem;
+    border-radius: 11px;
+    padding: 0.6875rem 1.25rem; /* Generous 44px touch height */
+    min-height: 42px;
+    transition: all 0.16s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+    position: relative;
+    cursor: pointer;
+    white-space: nowrap;
+    letter-spacing: -0.01em;
+  }
+
+  .fx-btn:active:not(:disabled) {
+    transform: scale(0.975) translateY(1px);
+  }
+
+  .fx-btn:focus-visible {
+    box-shadow: 0 0 0 2px #0B1118, 0 0 0 4px rgba(0, 212, 255, 0.6);
+  }
+
+  .fx-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Primary Accent Button: Specular top edge + gradient + tactile compression */
+  .fx-btn-primary {
+    background: linear-gradient(180deg, #00E5FF 0%, #00B8F0 100%);
+    color: #050B11;
+    font-weight: 700;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.6),
+      0 2px 4px rgba(0, 0, 0, 0.3),
+      0 6px 18px rgba(0, 212, 255, 0.28);
+  }
+
+  .fx-btn-primary:hover:not(:disabled) {
+    background: linear-gradient(180deg, #26EBFF 0%, #00C4FF 100%);
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.7),
+      0 3px 8px rgba(0, 0, 0, 0.35),
+      0 8px 24px rgba(0, 212, 255, 0.4);
+  }
+
+  .fx-btn-primary:active:not(:disabled) {
+    background: linear-gradient(180deg, #00BCE5 0%, #009EC7 100%);
+    box-shadow:
+      inset 0 1px 2px rgba(0, 0, 0, 0.25),
+      0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Secondary Studio Glass Button */
+  .fx-btn-secondary {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.03) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #E8ECF1;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .fx-btn-secondary:hover:not(:disabled) {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.13) 0%, rgba(255, 255, 255, 0.07) 100%);
+    border-color: rgba(255, 255, 255, 0.22);
+    color: #FFFFFF;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .fx-btn-secondary:active:not(:disabled) {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Live Broadcast Button (Electric Emerald) */
+  .fx-btn-live {
+    background: linear-gradient(180deg, #00F594 0%, #00CC7A 100%);
+    color: #03140B;
+    font-weight: 700;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.6),
+      0 2px 4px rgba(0, 0, 0, 0.3),
+      0 6px 20px rgba(0, 230, 138, 0.35);
+  }
+
+  .fx-btn-live:hover:not(:disabled) {
+    background: linear-gradient(180deg, #1CFF9E 0%, #00DC84 100%);
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.7),
+      0 8px 26px rgba(0, 230, 138, 0.48);
+  }
+
+  /* Danger / Emergency Stop Button */
+  .fx-btn-danger {
+    background: linear-gradient(180deg, rgba(255, 71, 87, 0.22) 0%, rgba(255, 71, 87, 0.12) 100%);
+    border: 1px solid rgba(255, 71, 87, 0.35);
+    color: #FF6675;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 2px 10px rgba(255, 71, 87, 0.2);
+  }
+
+  .fx-btn-danger:hover:not(:disabled) {
+    background: linear-gradient(180deg, rgba(255, 71, 87, 0.32) 0%, rgba(255, 71, 87, 0.18) 100%);
+    border-color: rgba(255, 71, 87, 0.55);
+    color: #FF8591;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      0 4px 18px rgba(255, 71, 87, 0.3);
+  }
+
+  .fx-btn-danger:active:not(:disabled) {
+    background: rgba(255, 71, 87, 0.15);
+  }
+
+  /* Ghost / Icon Button */
+  .fx-btn-ghost {
+    background: transparent;
+    color: #8B9BB4;
+    border: 1px solid transparent;
+  }
+
+  .fx-btn-ghost:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #E8ECF1;
+  }
+
+  /* ─── Precision Form Inputs ─── */
+  .fx-input {
+    @apply w-full px-4 py-3 rounded-xl text-sm text-foreground placeholder-foreground-muted;
+    background: rgba(12, 20, 29, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    outline: none;
+    min-height: 44px;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+  }
+
+  .fx-input:focus {
+    border-color: rgba(0, 212, 255, 0.55);
+    box-shadow:
+      inset 0 1px 2px rgba(0, 0, 0, 0.2),
+      0 0 0 3px rgba(0, 212, 255, 0.14),
+      0 0 18px rgba(0, 212, 255, 0.1);
+    background: rgba(14, 23, 34, 0.98);
+  }
+
+  .fx-input:hover:not(:focus) {
+    border-color: rgba(255, 255, 255, 0.18);
+  }
+
+  .fx-select {
+    @apply w-full px-4 py-3 rounded-xl text-sm text-foreground;
+    background: rgba(12, 20, 29, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    outline: none;
+    min-height: 44px;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238B9BB4' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+  }
+
+  .fx-select:focus {
+    border-color: rgba(0, 212, 255, 0.55);
+    box-shadow:
+      inset 0 1px 2px rgba(0, 0, 0, 0.2),
+      0 0 0 3px rgba(0, 212, 255, 0.14);
+  }
+
+  .fx-select option {
+    background: #131D2A;
+    color: #E8ECF1;
+    padding: 10px 14px;
+  }
+
+  .fx-checkbox {
+    @apply h-5 w-5 rounded-md cursor-pointer;
+    accent-color: #00D4FF;
+    background: rgba(15, 25, 35, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    transition: all 0.15s ease;
+  }
+
+  .fx-checkbox:focus-visible {
+    box-shadow: 0 0 0 2px #0B1118, 0 0 0 4px rgba(0, 212, 255, 0.5);
+  }
+
+  /* ─── Labels & Typography ─── */
+  .fx-label {
+    @apply block text-xs font-bold uppercase tracking-wider mb-2;
+    color: #8B9BB4;
+    letter-spacing: 0.05em;
+  }
+
+  .fx-section-title {
+    @apply text-sm font-bold uppercase tracking-wider;
+    color: #A0AEC0;
+    letter-spacing: 0.06em;
+  }
+
+  /* ─── Live Status Pulse / Radar ─── */
+  .status-dot {
+    @apply inline-block w-2.5 h-2.5 rounded-full;
+  }
+
+  .status-dot-running {
+    @apply bg-success;
+    box-shadow: 0 0 10px rgba(0, 230, 138, 0.6);
+    animation: liveRadarPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .status-dot-stopped {
+    background: #4A5568;
+  }
+
+  .status-dot-error {
+    @apply bg-destructive;
+    box-shadow: 0 0 10px rgba(255, 71, 87, 0.6);
+  }
+
+  /* ─── Progress Bar ─── */
+  .fx-progress {
+    @apply w-full h-1.5 rounded-full overflow-hidden;
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .fx-progress-bar {
+    @apply h-full rounded-full;
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* ─── Tooltip ─── */
+  .fx-tooltip {
+    @apply absolute z-50 px-2.5 py-1.5 text-xs rounded-md font-medium;
+    background: rgba(15, 25, 35, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #E8ECF1;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(8px);
+  }
+}
+
+/* ─── Keyframe Animations ─── */
+@keyframes liveRadarPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 230, 138, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(0, 230, 138, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 230, 138, 0);
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.65; transform: scale(0.96); }
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: rgba(0, 212, 255, 0.25);
+  color: #FFFFFF;
+}
